@@ -14,7 +14,12 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <p>Thanks for registering at {{\Illuminate\Support\Facades\Auth::user()->name}}!
+                        We will be building up the functionality rapidly to include:</p>
+                        <ul>
+                            <li> A interactive form and table allowing you to easy add to, edit and view your applications. </li>
+                            <li> An analytics hub to view progress indicators and receive valuable feedback. </li>
+                        </ul>
                 </div>
             </div>
         </div>
