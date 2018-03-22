@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <p>Thanks for registering at {{\Illuminate\Support\Facades\Auth::user()->name}}!
+                    <p>Thanks for registering {{\Illuminate\Support\Facades\Auth::user()->username}}!
                         We will be building up the functionality rapidly to include:</p>
                         <ul>
                             <li> A interactive form and table allowing you to easy add to, edit and view your applications. </li>
