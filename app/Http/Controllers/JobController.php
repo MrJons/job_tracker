@@ -6,9 +6,11 @@ use App\Job;
 use DeepCopy\f007\FooDateTimeZone;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller {
     /**
@@ -37,34 +39,45 @@ class JobController extends Controller {
      * @return Response
      */
     public function store(Request $request) {
-        $validatedData = $this->validate($request, [
-            'companyName'      => 'required',
-            'companyURL'       => 'URL',
-            'contactName'      => 'present',
-            'contactEmail'     => 'present|E-Mail',
-            'companyInterest'  => 'required',
-            'applicationStage' => 'required',
-            'lastInteraction'  => 'required',
-            'companyNotes'     => 'present'
-        ]);
+        $validatedData = $this->validateJobsForm($request);
 
-        DB::insert('insert into jobs (user_id, company_name, company_url, contact_name, contact_email, role_interest,
-               application_stage, last_interaction, extra_notes, created_at, updated_at)
-               values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-                   Auth::id(),
-                   $validatedData['companyName'],
-                   $validatedData['companyURL'],
-                   $validatedData['contactName'],
-                   $validatedData['contactEmail'],
-                   $validatedData['companyInterest'],
-                   $validatedData['applicationStage'],
-                   $validatedData['lastInteraction'],
-                   $validatedData['companyNotes'],
-                   now(),
-                   now()
-                ]);
+        if ($validatedData->fails()) {
+            return redirect('/jobs')
+                ->withErrors($validatedData)
+                ->withInput($request->toArray());
+        }
+
+        DB::table('jobs')->insert([
+            'user_id'           => Auth::id(),
+            'company_name'      => $validatedData['companyName'],
+            'company_url'       => $validatedData['companyURL'],
+            'contact_name'      => $validatedData['contactName'],
+            'contact_email'     => $validatedData['contactEmail'],
+            'role_interest'     => $validatedData['companyInterest'],
+            'application_stage' => $validatedData['applicationStage'],
+            'last_interaction'  => $validatedData['lastInteraction'],
+            'extra_notes'       => $validatedData['companyNotes'],
+            'created_at'        => now(),
+            'updated_at'        => now(),
+        ]);
 
         return redirect('/jobs');
 
+    }
+
+
+    public function validateJobsForm($request) {
+        $validator = Validator::make($request->all(), [
+            'companyName'      => 'Required',
+            'companyURL'       => 'Nullable|URL',
+            'contactName'      => 'Nullable',
+            'contactEmail'     => 'Nullable|E-Mail',
+            'companyInterest'  => 'Required',
+            'applicationStage' => 'Required',
+            'lastInteraction'  => 'Required',
+            'companyNotes'     => 'Present'
+        ]);
+
+        return $validator;
     }
 }
