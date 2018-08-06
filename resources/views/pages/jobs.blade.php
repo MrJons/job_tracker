@@ -39,21 +39,21 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <select class="form-control" name="companyInterest">
-                        <option selected disabled>{{ array_key_exists('companyInterest', old()) ? old('companyInterest') : 'Interest' }}</option>
+                        <option selected disabled>{{ old('companyInterest', 'Interest') }}</option>
                         @foreach(range(1,10) as $number)
-                            <option> {{$number}} </option>
+                            <option {{ old('companyInterest') == $number ? "selected" : '' }}> {{$number}} </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-md-4">
                     <select class="form-control" name="applicationStage">
-                        <option selected disabled>{{ array_key_exists('applicationStage', old()) ? old('applicationStage') : 'Application stage' }}</option>
-                        <option>Not applied</option>
-                        <option>Applied</option>
-                        <option>Tech test</option>
-                        <option>interview(s)</option>
-                        <option>Offer</option>
-                        <option>Accepted!</option>
+                        <option selected disabled >{{ old('applicationStage', 'Application stage') }}</option>
+                        <option {{ old('applicationStage') == 'Not applied'  ? "selected" : '' }}>Not applied </option>
+                        <option {{ old('applicationStage') == 'Applied'      ? "selected" : '' }}>Applied     </option>
+                        <option {{ old('applicationStage') == 'Tech test'    ? "selected" : '' }}>Tech test   </option>
+                        <option {{ old('applicationStage') == 'interview(s)' ? "selected" : '' }}>interview(s)</option>
+                        <option {{ old('applicationStage') == 'Offer'        ? "selected" : '' }}>Offer       </option>
+                        <option {{ old('applicationStage') == 'Accepted!'    ? "selected" : '' }}>Accepted!   </option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">

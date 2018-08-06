@@ -49,14 +49,14 @@ class JobController extends Controller {
 
         DB::table('jobs')->insert([
             'user_id'           => Auth::id(),
-            'company_name'      => $validatedData['companyName'],
-            'company_url'       => $validatedData['companyURL'],
-            'contact_name'      => $validatedData['contactName'],
-            'contact_email'     => $validatedData['contactEmail'],
-            'role_interest'     => $validatedData['companyInterest'],
-            'application_stage' => $validatedData['applicationStage'],
-            'last_interaction'  => $validatedData['lastInteraction'],
-            'extra_notes'       => $validatedData['companyNotes'],
+            'company_name'      => $validatedData->getData()['companyName'],
+            'company_url'       => $validatedData->getData()['companyURL'],
+            'contact_name'      => $validatedData->getData()['contactName'],
+            'contact_email'     => $validatedData->getData()['contactEmail'],
+            'role_interest'     => $validatedData->getData()['companyInterest'],
+            'application_stage' => $validatedData->getData()['applicationStage'],
+            'last_interaction'  => $validatedData->getData()['lastInteraction'],
+            'extra_notes'       => $validatedData->getData()['companyNotes'],
             'created_at'        => now(),
             'updated_at'        => now(),
         ]);
