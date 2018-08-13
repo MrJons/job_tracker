@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Job;
-use DeepCopy\f007\FooDateTimeZone;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller {
@@ -28,7 +24,12 @@ class JobController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('pages.jobs');
+        return view('pages.jobs', ['applications' => $this->get_applications()]);
+    }
+
+    public function get_applications() {
+        $applications = DB::table('jobs')->where('user_id', Auth::id())->get();
+        return $applications->toArray();
     }
 
 
