@@ -85,32 +85,67 @@
             </div>
         </div>
 
-            <table class="table" >
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Company Name</th>
-                    <th scope="col">Company URL</th>
-                    <th scope="col">Contact Name</th>
-                    <th scope="col">Contact Email</th>
-                    <th scope="col">Role Interest</th>
-                    <th scope="col">Application Stage</th>
-                    <th scope="col">Last Interaction</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($applications as $application)
-                    <tr>
-                        <th scope="row">{{$application->company_name}}</th>
-                        <td>{{$application->company_url}}</td>
-                        <td>{{$application->contact_name}}</td>
-                        <td>{{$application->contact_email}}</td>
-                        <td>{{$application->role_interest}}</td>
-                        <td>{{$application->application_stage}}</td>
-                        <td>{{$application->last_interaction}}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+            {{--<table class="table" >--}}
+                {{--<thead class="thead-light">--}}
+                {{--<tr>--}}
+                    {{--<th scope="col">Company Name</th>--}}
+                    {{--<th scope="col">Company URL</th>--}}
+                    {{--<th scope="col">Contact Name</th>--}}
+                    {{--<th scope="col">Contact Email</th>--}}
+                    {{--<th scope="col">Role Interest</th>--}}
+                    {{--<th scope="col">Application Stage</th>--}}
+                    {{--<th scope="col">Last Interaction</th>--}}
+                {{--</tr>--}}
+                {{--</thead>--}}
+                {{--<tbody>--}}
+                {{--@foreach($applications as $application)--}}
+                    {{--<tr>--}}
+                        {{--<th scope="row">{{$application->company_name}}</th>--}}
+                        {{--<td>{{$application->company_url}}</td>--}}
+                        {{--<td>{{$application->contact_name}}</td>--}}
+                        {{--<td>{{$application->contact_email}}</td>--}}
+                        {{--<td>{{$application->role_interest}}</td>--}}
+                        {{--<td>{{$application->application_stage}}</td>--}}
+                        {{--<td>{{$application->last_interaction}}</td>--}}
+                    {{--</tr>--}}
+                {{--@endforeach--}}
+                {{--</tbody>--}}
+            {{--</table>--}}
+
+        <div class="row">
+        @foreach($applications as $application)
+            <div class="col-md-6">
+                <div class="card text-center" style="margin-top: 5%">
+                    <div class="card-header">
+                        <span class="badge badge-primary float-left">Interest: {{$application->role_interest}}</span>
+                        <a href="{{$application->company_url}}" style="margin-left: -11%"> {{$application->company_name}} </a>
+                    </div>
+                    <div class="card-body">
+                        Contanct: <a href="mailto:{{$application->contact_email}}"> {{$application->contact_name}} </a>
+                        <div>
+                            Application Stage: {{$application->application_stage}}
+                        </div>
+
+                        <p>
+                            <a data-toggle="collapse" href="#extranotes-{{$application->id}}" role="button" aria-expanded="false" aria-controls="extranotes-{{$application->id}}">
+                                View application notes
+                            </a>
+                        </p>
+                        <div class="collapse" id="extranotes-{{$application->id}}">
+                            <div>
+                                {{$application->extra_notes}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-muted">
+                        Last interaction: {{$application->last_interaction}}
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        </div>
+
 
     </div>
 
