@@ -112,44 +112,47 @@
                 {{--</tbody>--}}
             {{--</table>--}}
 
-        <div class="row">
-        @foreach($applications as $application)
-            <div class="col-md-6">
-                <div class="card text-center" style="margin-top: 5%">
-                    <div class="card-header">
-                        <span class="badge badge-primary float-left">Interest: {{$application->role_interest}}</span>
-                        <a href="{{$application->company_url}}" style="margin-left: -11%"> {{$application->company_name}} </a>
-                    </div>
-                    <div class="card-body">
-                        Contanct: <a href="mailto:{{$application->contact_email}}"> {{$application->contact_name}} </a>
-                        <div>
-                            Application Stage: {{$application->application_stage}}
-                        </div>
+        @if($applications && count($applications) > 0)
+            <div class="row">
+                @foreach($applications as $application)
+                    <div class="col-md-6">
+                        <div class="card text-center" style="margin-top: 5%">
+                            <div class="card-header">
+                                <span class="badge badge-primary float-left">Interest: {{$application->role_interest}}</span>
+                                <a href="{{$application->company_url}}" style="margin-left: -11%"> {{$application->company_name}} </a>
+                            </div>
+                            <div class="card-body">
+                                Contanct: <a href="mailto:{{$application->contact_email}}"> {{$application->contact_name}} </a>
+                                <div>
+                                    Application Stage: {{$application->application_stage}}
+                                </div>
 
-                        <p>
-                            <a data-toggle="collapse" href="#extranotes-{{$application->id}}" role="button" aria-expanded="false" aria-controls="extranotes-{{$application->id}}">
-                                View application notes
-                            </a>
-                        </p>
-                        <div class="collapse" id="extranotes-{{$application->id}}">
-                            <div>
-                                {{$application->extra_notes}}
+                                <p>
+                                    <a class="text-dark font-weight-bold" data-toggle="collapse" href="#extranotes-{{$application->id}}" role="button" aria-expanded="false" aria-controls="extranotes-{{$application->id}}">
+                                        View application notes
+                                    </a>
+                                </p>
+                                <div class="collapse" id="extranotes-{{$application->id}}">
+                                    <div>
+                                        {{$application->extra_notes}}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                Last interaction: {{$application->last_interaction}}
                             </div>
                         </div>
-
                     </div>
-                    <div class="card-footer text-muted">
-                        Last interaction: {{$application->last_interaction}}
-                    </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
-        </div>
+        @else
 
+            <div class="text-center font-weight-light" style="margin-top: 150px; font-size: 35px;">
+                You currently have no open applications
+            </div>
+        @endif
 
     </div>
 
-    <div>
-
-    </div>
 @endsection
