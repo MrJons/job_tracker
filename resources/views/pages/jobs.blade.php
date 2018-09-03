@@ -85,32 +85,6 @@
             </div>
         </div>
 
-            {{--<table class="table" >--}}
-                {{--<thead class="thead-light">--}}
-                {{--<tr>--}}
-                    {{--<th scope="col">Company Name</th>--}}
-                    {{--<th scope="col">Company URL</th>--}}
-                    {{--<th scope="col">Contact Name</th>--}}
-                    {{--<th scope="col">Contact Email</th>--}}
-                    {{--<th scope="col">Role Interest</th>--}}
-                    {{--<th scope="col">Application Stage</th>--}}
-                    {{--<th scope="col">Last Interaction</th>--}}
-                {{--</tr>--}}
-                {{--</thead>--}}
-                {{--<tbody>--}}
-                {{--@foreach($applications as $application)--}}
-                    {{--<tr>--}}
-                        {{--<th scope="row">{{$application->company_name}}</th>--}}
-                        {{--<td>{{$application->company_url}}</td>--}}
-                        {{--<td>{{$application->contact_name}}</td>--}}
-                        {{--<td>{{$application->contact_email}}</td>--}}
-                        {{--<td>{{$application->role_interest}}</td>--}}
-                        {{--<td>{{$application->application_stage}}</td>--}}
-                        {{--<td>{{$application->last_interaction}}</td>--}}
-                    {{--</tr>--}}
-                {{--@endforeach--}}
-                {{--</tbody>--}}
-            {{--</table>--}}
 
         @if($applications && count($applications) > 0)
             <div class="row">
