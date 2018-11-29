@@ -20,9 +20,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{user}', 'HomeController@index')->name('home');
 
-Route::get('/jobs', 'JobController@create')->name('jobs.create');
-Route::post('/jobs', 'JobController@store');
+Route::get('/{user}/jobs', 'JobController@create')->name('jobs.create');
+Route::post('/{user}/jobs', 'JobController@store');
 
+Route::group(['prefix' => '{user}/'], function()
+{
+    Route::resource('jobs', 'JobController');
+});
 
