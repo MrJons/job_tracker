@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class JobController extends Controller {
+class JobController extends Controller
+{
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -23,15 +24,11 @@ class JobController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        return view('pages.jobs', ['applications' => $this->get_applications()]);
+    public function index()
+    {
+        $applications = \auth()->user()->jobs;
+        return view('pages.jobs', compact('applications'));
     }
-
-    public function get_applications() {
-        $applications = DB::table('jobs')->where('user_id', Auth::id())->get();
-        return $applications->toArray();
-    }
-
 
     /**
      * Store a new blog post.
@@ -39,46 +36,28 @@ class JobController extends Controller {
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request) {
-        $validatedData = $this->validateJobsForm($request);
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_name'      => 'Required',
+            'company_url'       => 'Nullable|URL',
+            'contact_name'      => 'Nullable',
+            'contact_email'     => 'Nullable|E-Mail',
+            'role_interest'     => 'Required',
+            'application_stage' => 'Required',
+            'last_interaction'  => 'Required',
+            'extra_notes'       => 'Present'
+        ]);
 
-        if ($validatedData->fails()) {
-            return redirect('/jobs')
-                ->withErrors($validatedData)
+        if ($validator->fails()) {
+            return redirect('/{user}/jobs')
+                ->withErrors($validator)
                 ->withInput($request->toArray());
         }
 
-        DB::table('jobs')->insert([
-            'user_id'           => Auth::id(),
-            'company_name'      => $validatedData->getData()['companyName'],
-            'company_url'       => $validatedData->getData()['companyURL'],
-            'contact_name'      => $validatedData->getData()['contactName'],
-            'contact_email'     => $validatedData->getData()['contactEmail'],
-            'role_interest'     => $validatedData->getData()['companyInterest'],
-            'application_stage' => $validatedData->getData()['applicationStage'],
-            'last_interaction'  => $validatedData->getData()['lastInteraction'],
-            'extra_notes'       => $validatedData->getData()['companyNotes'],
-            'created_at'        => now(),
-            'updated_at'        => now(),
-        ]);
+        Job::create(array_merge($validator->attributes(), ['user_id' => \auth()->id()]));
 
-        return redirect('/jobs');
-
+        return redirect('/{user}/jobs');
     }
 
-
-    public function validateJobsForm($request) {
-        $validator = Validator::make($request->all(), [
-            'companyName'      => 'Required',
-            'companyURL'       => 'Nullable|URL',
-            'contactName'      => 'Nullable',
-            'contactEmail'     => 'Nullable|E-Mail',
-            'companyInterest'  => 'Required',
-            'applicationStage' => 'Required',
-            'lastInteraction'  => 'Required',
-            'companyNotes'     => 'Present'
-        ]);
-
-        return $validator;
-    }
 }
