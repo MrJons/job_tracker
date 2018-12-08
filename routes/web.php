@@ -22,9 +22,6 @@ Auth::routes();
 
 Route::get('/{user}', 'HomeController@index')->name('home');
 
-Route::get('/{user}/jobs', 'JobController@create')->name('jobs.create');
-Route::post('/{user}/jobs', 'JobController@store');
-
 Route::group(['prefix' => '{user}/'], function()
 {
     Route::resource('jobs', 'JobController');
